@@ -5,32 +5,36 @@ import axios from 'axios';
 const Movie = (props) => {
   const [movie, setMovie] = useState();
 
-  const { id } = useParams();
+  const { movieId } = useParams();
  
   useEffect(() => {
-
        axios
-        .get(`http://localhost:5000/api/movies/${id}`)
+        .get(`http://localhost:5000/api/movies/${movieId}`)
         .then(response => {
           setMovie(response.data);
         })
         .catch(error => {
           console.error(error);
         });
-
-  }, [id]);
+  }, [movieId]);
   
-  // Uncomment this only when you have moved on to the stretch goals
-  // const saveMovie = () => {
-  //   const addToSavedList = props.addToSavedList;
-  //   addToSavedList(movie)
-  // }
+
+  const saveMovie = () => {
+    const addToSavedList = props.addToSavedList;
+    addToSavedList(movie)
+  }
+
+  const removeMovie = () => {
+
+  }
+
 
   if (!movie) {
     return <div>Loading movie information...</div>;
   }
 
   const { title, director, metascore, stars } = movie;
+  
   return (
     <div className="save-wrapper">
       <div className="movie-card">
@@ -49,7 +53,8 @@ const Movie = (props) => {
           </div>
         ))}
       </div>
-      <div className="save-button">Save</div>
+      <div onClick={ saveMovie } className="save-button">Add to saved movies</div>
+      <button>Remove from saved movies</button>
     </div>
   );
 }
